@@ -1,0 +1,16 @@
+gcloud init
+gcloud auth list
+
+
+-- create customer supplied key
+openssl rand -base64 32 -> genereats key
+gsutil -o 'GSUtil:encryption_key='<generated key> cp foo1.txt gs://test-qwiklabs123
+
+--enable versioning to a bucket
+gsutil versioning set on <bucket-name>
+
+--check versioning status
+gsutil versioning get <bucket-name>
+
+--list all versioned files in a bucket
+gsutil list -a  <bucket-name>
