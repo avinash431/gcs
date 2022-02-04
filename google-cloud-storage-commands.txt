@@ -1,6 +1,19 @@
+--initialize google project
 gcloud init
+
 gcloud auth list
 
+--configuration details of gcloud
+gcloud config list
+
+--command to create a bucket
+gsutil mb gs://<bucket-name>
+
+--acl info of a bucket
+gsutil ls -L -b gs://<bucket-name>
+
+--recursively view all the contents of a bucket
+gsutil ls gs://<bucket-name>/**
 
 -- create customer supplied key
 openssl rand -base64 32 -> genereats key
@@ -14,3 +27,20 @@ gsutil versioning get <bucket-name>
 
 --list all versioned files in a bucket
 gsutil list -a  <bucket-name>
+
+--signed url
+gsutil signurl -d <duration> gs://<bucket-name>/<object-name>
+
+
+--parallel upload
+gsutil -m cp dir gs://<bucket-name>/<object-name>
+
+--improve large file performance while uploading
+gsutil -o GSUtil:parallel_composite_upload_threshold=150M cp <local-file> gs://<bucket-name>/<object-name>
+
+
+--improve large file performance while downloading
+gsutil -o "GSUtil:parallel_thread_count=1" -o "GSUtil:parallel_process_count=8" cp gs://<bucket-name>/<object-name> <local-path>
+
+--sync local folder to gcs bucket
+gsutil -m rsync -r <local-folder> gs://<bucket-name>
